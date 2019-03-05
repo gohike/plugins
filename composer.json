@@ -27,5 +27,11 @@
     "wpackagist-plugin/shortcode-ui": "*",
     "wpackagist-plugin/relevanssi": "*",
     "wpackagist-plugin/regenerate-thumbnails": "*"
+  },
+  "autoload": {
+		"classmap": [
+			"advanced-custom-fields-pro/",
+			"gravityforms/"
+		]
 	}
 }
