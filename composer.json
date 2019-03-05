@@ -14,14 +14,6 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
-    },
-    {
-      "type": "path",
-      "url": "./advanced-custom-fields-pro"
-    },
-    {
-      "type": "path",
-      "url": "./gravityforms"
     }
   ],
 	"require": {
