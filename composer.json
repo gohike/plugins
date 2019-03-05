@@ -14,6 +14,14 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
+    },
+    {
+      "type": "path",
+      "url": "./advanced-custom-fields-pro"
+    },
+    {
+      "type": "path",
+      "url": "./gravityforms"
     }
   ],
 	"require": {
@@ -27,11 +35,5 @@
     "wpackagist-plugin/shortcode-ui": "*",
     "wpackagist-plugin/relevanssi": "*",
     "wpackagist-plugin/regenerate-thumbnails": "*"
-  },
-  "autoload": {
-		"classmap": [
-			"advanced-custom-fields-pro/",
-			"gravityforms/"
-		]
-	}
+  }
 }
