@@ -17,14 +17,11 @@
     }
   ],
 	"require": {
-		"johnpbloch/wordpress": "5.1.0",
-    "composer/installers": "~1.0",
     "rtcamp/nginx-helper": "*",
     "yoast/wordpress-seo": "9.7",
     "wpackagist-plugin/wordfence":"dev-trunk",
     "wpackagist-plugin/stream":"dev-trunk",
     "wpackagist-plugin/classic-editor": "*",
-    "wpackagist-plugin/timber-library": "1.8.4",
     "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "*",
     "wpackagist-plugin/redirection": "*",
     "wpackagist-plugin/shortcode-ui": "*",
