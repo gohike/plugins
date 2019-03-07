@@ -17,8 +17,8 @@
     }
   ],
 	"require": {
-    "rtcamp/nginx-helper": "*",
-    "yoast/wordpress-seo": "9.6",
+    "wpackagist-plugin/nginx-helper": "*",
+    "wpackagist-plugin/wordpress-seo": "*",
     "wpackagist-plugin/wordfence":"dev-trunk",
     "wpackagist-plugin/stream":"dev-trunk",
     "wpackagist-plugin/classic-editor": "*",
