@@ -20,7 +20,6 @@
     "wpackagist-plugin/nginx-helper": "*",
     "wpackagist-plugin/wordpress-seo": "*",
     "wpackagist-plugin/wordfence":"dev-trunk",
-    "wpackagist-plugin/stream":"dev-trunk",
     "wpackagist-plugin/classic-editor": "*",
     "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "*",
     "wpackagist-plugin/redirection": "*",
