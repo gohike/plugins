@@ -17,14 +17,15 @@
     }
   ],
 	"require": {
-    "wpackagist-plugin/nginx-helper": "*",
-    "wpackagist-plugin/wordpress-seo": "*",
+    "wpackagist-plugin/nginx-helper": "dev-trunk",
+    "wpackagist-plugin/wordpress-seo": "dev-trunk",
     "wpackagist-plugin/wordfence":"dev-trunk",
-    "wpackagist-plugin/classic-editor": "*",
-    "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "*",
-    "wpackagist-plugin/redirection": "*",
-    "wpackagist-plugin/shortcode-ui": "*",
-    "wpackagist-plugin/relevanssi": "*",
-    "wpackagist-plugin/regenerate-thumbnails": "*"
+    "wpackagist-plugin/classic-editor": "dev-trunk",
+    "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "dev-trunk",
+    "wpackagist-plugin/redirection": "dev-trunk",
+    "wpackagist-plugin/shortcode-ui": "dev-trunk",
+    "wpackagist-plugin/relevanssi": "dev-trunk",
+    "wpackagist-plugin/regenerate-thumbnails": "dev-trunk",
+    "wpackagist-plugin/mainwp-child": "dev-trunk"
   }
 }
