@@ -1,7 +1,7 @@
 {
   "name": "gohike/plugins",
   "description": "Default plug-ins used by Hike.",
-  "type": "gohike-plugin",
+  "type": "wordpress-plugin",
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
