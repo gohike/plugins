@@ -26,6 +26,7 @@
     "wpackagist-plugin/shortcode-ui": "dev-trunk",
     "wpackagist-plugin/relevanssi": "dev-trunk",
     "wpackagist-plugin/regenerate-thumbnails": "dev-trunk",
-    "wpackagist-plugin/mainwp-child": "dev-trunk"
+    "wpackagist-plugin/mainwp-child": "dev-trunk",
+    "wpackagist-plugin/stream": "dev-trunk"
   }
 }
