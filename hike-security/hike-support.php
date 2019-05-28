@@ -106,14 +106,14 @@ add_action( 'wp_loaded', function() {
             /*-----------------------------------------------------------------------------------*/
             if ( ! defined( 'ABSPATH' ) ){
                 exit; // Exit if accessed this file directly
-            } 
+            }
 
             if( !defined('DISALLOW_FILE_EDIT') ){
                 define( 'DISALLOW_FILE_EDIT', true );
             }
 
             /*-----------------------------------------------------------------------------------*/
-            /* Remove Unwanted Admin Menu Items 
+            /* Remove Unwanted Admin Menu Items
             /*-----------------------------------------------------------------------------------*/
             function remove_admin_menu_items() {
                 $remove_menu_items = array(__('Plugins'));
@@ -143,9 +143,9 @@ add_action( 'wp_loaded', function() {
             /*-----------------------------------------------------------------------------------*/
             /* Redirect user to dashboard if accessing plugins.php or themes.php
             /*-----------------------------------------------------------------------------------*/
-            if ( $_SERVER['PHP_SELF'] == '/wp-admin/plugins.php' || $_SERVER['PHP_SELF'] == '/wp-admin/themes.php' || $_SERVER['PHP_SELF'] == '/wp-admin/plugin-install.php' ) { 
-              wp_redirect(admin_url() ); 
-              exit; 
+            if ( $_SERVER['PHP_SELF'] == '/wp-admin/plugins.php' || $_SERVER['PHP_SELF'] == '/wp-admin/themes.php' || $_SERVER['PHP_SELF'] == '/wp-admin/plugin-install.php' ) {
+              wp_redirect(admin_url() );
+              exit;
             }
 
             /*-----------------------------------------------------------------------------------*/
@@ -159,7 +159,7 @@ add_action( 'wp_loaded', function() {
                 return $errors;
             }
             add_action( 'user_profile_update_errors', 'slt_strongPasswords', 0, 3 );
-             
+
             // Check for password strength
             // Copied from JS function in WP core: /wp-admin/js/password-strength-meter.js
             function slt_passwordStrength( $i, $f ) {
@@ -194,7 +194,7 @@ add_action( 'wp_loaded', function() {
               echo '<style>
                 .sucuriscan-setup-notice {
                   display: none;
-                } 
+                }
                 .wrap .error, .wrap .updated {
                     display: none;
                 }
@@ -203,8 +203,14 @@ add_action( 'wp_loaded', function() {
 
         }
 
-    } 
+    }
 
 }, 30 );
+
+function my_gal_set_login_cookie($dosetcookie) {
+    // Only set cookie on wp-login.php page
+    return $GLOBALS['pagenow'] == 'wp-login.php';
+}
+add_filter('gal_set_login_cookie', 'my_gal_set_login_cookie');
 
 ?>
