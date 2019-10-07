@@ -280,11 +280,9 @@ abstract class GFAddOn {
 
 
 		// Members plugin integration.
-		if ( GFForms::has_members_plugin( '2.0' ) ) {
+		if ( $this->has_members_plugin( ) ) {
 			add_action( 'members_register_cap_groups', array( $this, 'members_register_cap_group' ), 11 );
 			add_action( 'members_register_caps', array( $this, 'members_register_caps' ), 11 );
-		} else if ( GFForms::has_members_plugin() ) {
-			add_filter( 'members_get_capabilities', array( $this, 'members_get_capabilities' ) );
 		}
 
 		// User Role Editor integration.
@@ -1188,20 +1186,7 @@ abstract class GFAddOn {
 	 * @return bool
 	 */
 	public function has_members_plugin() {
-		return function_exists( 'members_get_capabilities' );
-	}
-
-	/**
-	 * Not intended to be overridden or called directly by Add-Ons.
-	 *
-	 * @ignore
-	 *
-	 * @param $caps
-	 *
-	 * @return array
-	 */
-	public function members_get_capabilities( $caps ) {
-		return array_merge( $caps, $this->_capabilities );
+		return GFForms::has_members_plugin();
 	}
 
 	/**
@@ -1766,6 +1751,11 @@ abstract class GFAddOn {
 		$attributes          = $this->get_field_attributes( $field );
 		$default_value       = rgar( $field, 'value' ) ? rgar( $field, 'value' ) : rgar( $field, 'default_value' );
 		$value               = $this->get_setting( $field['name'], $default_value );
+
+		// Add autocomplete attribute for password inputs.
+		if ( 'password' === $field['input_type'] ) {
+			$attributes['autocomplete'] = 'autocomplete="off"';
+		}
 
 		$html    = '';
 
@@ -4101,7 +4091,7 @@ abstract class GFAddOn {
 	public function get_field( $name, $settings ) {
 		foreach ( $settings as $section ) {
 			for ( $i = 0; $i < count( $section['fields'] ); $i ++ ) {
-				if ( $section['fields'][ $i ]['name'] == $name ) {
+				if ( rgar( $section['fields'][ $i ], 'name' ) == $name ) {
 					return $section['fields'][ $i ];
 				}
 			}
@@ -5368,22 +5358,24 @@ abstract class GFAddOn {
 		}
 
 		global $wpdb;
-		$lead_meta_table = GFFormsModel::get_lead_meta_table_name();
 
 		$forms        = GFFormsModel::get_forms();
 		$all_form_ids = array();
 
 		// remove entry meta
+		$meta_table = version_compare( GFFormsModel::get_database_version(), '2.3-dev-1', '<' ) ? GFFormsModel::get_lead_meta_table_name() : GFFormsModel::get_entry_meta_table_name();
+		remove_filter( 'query', array( 'GFForms', 'filter_query' ) );
 		foreach ( $forms as $form ) {
 			$all_form_ids[] = $form->id;
 			$entry_meta     = $this->get_entry_meta( array(), $form->id );
 			if ( is_array( $entry_meta ) ) {
 				foreach ( array_keys( $entry_meta ) as $meta_key ) {
-					$sql = $wpdb->prepare( "DELETE from $lead_meta_table WHERE meta_key=%s", $meta_key );
+					$sql = $wpdb->prepare( "DELETE from $meta_table WHERE meta_key=%s", $meta_key );
 					$wpdb->query( $sql );
 				}
 			}
 		}
+		add_filter( 'query', array( 'GFForms', 'filter_query' ) );
 
 		//remove form settings
 		if ( ! empty( $all_form_ids ) ) {
