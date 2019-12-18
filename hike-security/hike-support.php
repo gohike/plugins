@@ -70,7 +70,11 @@ function getCurrentUser() {
 
 add_action( 'wp_loaded', 'getCurrentUser' );
 
-
+function my_gal_set_login_cookie($dosetcookie) {
+  // Only set cookie on wp-login.php page
+  return $GLOBALS['pagenow'] == 'wp-login.php';
+}
+add_filter('gal_set_login_cookie', 'my_gal_set_login_cookie');
 
 add_action( 'wp_loaded', function() {
 
