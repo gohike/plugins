@@ -68,13 +68,65 @@ function getCurrentUser() {
   if ( $user instanceof WP_PM_User ) return $user;
 }
 
-add_action( 'wp_loaded', 'getCurrentUser' );
-
 function my_gal_set_login_cookie($dosetcookie) {
-  // Only set cookie on wp-login.php page
-  return $GLOBALS['pagenow'] == 'wp-login.php';
+    // Only set cookie on wp-login.php page
+    return $GLOBALS['pagenow'] == 'wp-login.php';
 }
 add_filter('gal_set_login_cookie', 'my_gal_set_login_cookie');
+
+add_action( 'wp_loaded', 'getCurrentUser' );
+
+function hike_security_settings_page() { ?>
+
+<div class="wrap">
+
+    <h2><?php _e('Hike security settings', 'cookie-bar'); ?></h2>
+
+    <form method="post" action="options.php" style="border-left:4px solid; border-bottom: 1px solid lightgray; padding: 20px; background: white;">
+        <?php settings_fields( 'hike-security-settings' ); ?>
+        <?php do_settings_sections( 'hike-security-settings' ); ?>
+        <table class="form-table">
+            <h2><?php _e('Gravity Forms - Delete Entry Data after Submission', 'hike-security'); ?></h2>
+            <tr valign="top">
+            <th scope="row"><?php _e('Disable entry deletion', 'hike-security'); ?></th>
+            <td><input type="checkbox" name="hike_security_disable" value="1" <?php checked( '1', get_option( 'hike_security_disable' ) ); ?> /></td>
+            </tr>
+            <tr valign="top">
+            <th scope="row"><?php _e('Exclude form IDs', 'hike-security'); ?></th>
+            <td><input type="text" size="100" name="hike_security_forms" value="<?php echo esc_html( get_option('hike_security_forms') ); ?>" /><br><small>Forms to exclude. Example: 1,3,10</small></td>
+            </tr>
+        </table>
+        <?php submit_button(); ?>
+    </form>
+
+</div>
+
+<?php }
+
+function hike_security_settings() {
+    register_setting( 'hike-security-settings', 'hike_security_disable' );
+    register_setting( 'hike-security-settings', 'hike_security_forms' );
+}
+add_action( 'admin_init', 'hike_security_settings' );
+
+if ( class_exists( 'GFCommon' ) && get_option( 'hike_security_disable' ) != 1 ) {
+
+    add_action( 'gform_after_submission', 'remove_form_entry' );
+    function remove_form_entry( $entry ) {
+
+        $form_id = get_option( 'hike_security_forms' );
+        $form_array = explode(',', $form_id);
+
+        if ( ! in_array( $entry['form_id'], $form_array ) ) {
+
+            GFAPI::delete_entry( $entry['id'] );
+
+        }
+
+    }
+
+}
+
 
 add_action( 'wp_loaded', function() {
 
@@ -83,10 +135,69 @@ add_action( 'wp_loaded', function() {
     if ( $current_user instanceof WP_PM_User ) {
 
         $email = $current_user->getEMAIL();
-        $allowed = array('gohike.nl', 'mass.im');
+        $allowed = array('gohike.nl');
 
         $explodedEmail = explode('@', $email);
         $domain = array_pop($explodedEmail);
+
+        if ( in_array($domain, $allowed) ) {
+
+            function hike_security_menu() {
+                add_options_page('Hike security', 'Hike security', 'administrator', 'hike-security-settings', 'hike_security_settings_page', 'dashicons-admin-generic');
+            }
+            add_action('admin_menu', 'hike_security_menu');
+
+            /*-----------------------------------------------------------------------------------*/
+            /* Enforce strong passwords
+            /*-----------------------------------------------------------------------------------*/
+            function slt_strongPasswords( $errors ) {
+                $enforce = true;
+                if ( $enforce && !$errors->get_error_data("pass") && $_POST["pass1"] && slt_passwordStrength( $_POST["pass1"], $_POST["user_login"] ) != 4 ) {
+                        $errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password stronger.' ) );
+                }
+                return $errors;
+            }
+            add_action( 'user_profile_update_errors', 'slt_strongPasswords', 0, 3 );
+             
+            // Check for password strength
+            // Copied from JS function in WP core: /wp-admin/js/password-strength-meter.js
+            function slt_passwordStrength( $i, $f ) {
+                $h = 1; $e = 2; $b = 3; $a = 4; $d = 0; $g = null; $c = null;
+                if ( strlen( $i ) < 4 )
+                    return $h;
+                if ( strtolower( $i ) == strtolower( $f ) )
+                    return $e;
+                if ( preg_match( "/[0-9]/", $i ) )
+                    $d += 10;
+                if ( preg_match( "/[a-z]/", $i ) )
+                    $d += 26;
+                if ( preg_match( "/[A-Z]/", $i ) )
+                    $d += 26;
+                if ( preg_match( "/[^a-zA-Z0-9]/", $i ) )
+                    $d += 31;
+                $g = log( pow( $d, strlen( $i ) ) );
+                $c = $g / log( 2 );
+                if ( $c < 40 )
+                    return $e;
+                if ( $c < 56 )
+                    return $b;
+                return $a;
+            }
+
+            /*-----------------------------------------------------------------------------------*/
+            /* Hide confirm weak password checkbox
+            /*-----------------------------------------------------------------------------------*/
+            add_action('admin_head', 'hide_pw_weak_checkbox');
+
+            function hide_pw_weak_checkbox() {
+              echo '<style>
+                .pw-weak {
+                  display: none !important;
+                }
+              </style>';
+            }
+            
+        }
 
         if ( ! in_array($domain, $allowed) ) {
 
