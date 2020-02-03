@@ -143,14 +143,6 @@ class commercial_google_apps_login extends core_google_apps_login {
 		return $options['ga_hidewplogin'] && !(isset($_GET['gahidewplogin']) && $_GET['gahidewplogin'] != 'true');
 	}
 	
-	protected function get_login_button_text() {
-		$options = $this->get_option_galogin();
-		if ($options['ga_loginbuttontext'] == '') {
-			return parent::get_login_button_text();
-		}
-		return $options['ga_loginbuttontext'];
-	}
-	
 	protected function loggedout_form() {
 		return;
 		?>
@@ -259,11 +251,6 @@ class commercial_google_apps_login extends core_google_apps_login {
 		echo '<label for="input_ga_googlelogout" class="checkbox plain">';
 		_e( 'Automatically logout of Google when logging out of WordPress' , 'google-apps-login' );
 		echo '</label>';
-		echo '<br class="clear" />';
-		echo '<label for="input_ga_loginbuttontext" class="textinput">'.__('Login button text (optional)', 'google-apps-login').'</label>';
-		echo '<input id="input_ga_loginbuttontext" name="'.$this->get_options_name().'[ga_loginbuttontext]" size="40" type="text" value="'
-				.esc_attr($options['ga_loginbuttontext']).'" class="textinput" '
-		.'placeholder="'.esc_attr__( 'Login with Google' , 'google-apps-login').'" />';
 	}
 	
 	protected function ga_moresection_text() {
@@ -326,7 +313,7 @@ class commercial_google_apps_login extends core_google_apps_login {
 			: get_option('default_role');
 		
 		$newinput['ga_googlelogout'] = isset($input['ga_googlelogout']) ? (boolean)$input['ga_googlelogout'] : false;
-		$newinput['ga_loginbuttontext'] = trim(stripslashes($input['ga_loginbuttontext']));
+		
 		
 		// License Key
 		$newinput['ga_license_key'] = trim($input['ga_license_key']);
@@ -413,7 +400,6 @@ class commercial_google_apps_login extends core_google_apps_login {
 				  'ga_hidewplogin' => false,
 				  'ga_defaultrole' => get_option('default_role'),
 				  'ga_license_key' => '',
-				  'ga_loginbuttontext' => '',
 				  'ga_googlelogout' => false,
 				  'ga_allowbeta' => false) );
 	}

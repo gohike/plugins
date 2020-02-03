@@ -182,3 +182,45 @@ a.gal_jsonkeytext {
 #gal-drip-signup-form p.gal-drip-unsubscribe {
     font-size: 80%;
 }
+fieldset.block {
+    font-family: sans-serif!important;
+    border: 3px solid #1F497D!important;
+    background: #eee!important;
+    border-radius: 5px!important;
+    padding: 15px!important;
+    margin-top: 10px;
+    width: 40%;
+}
+fieldset.block legend.blocktitle {
+    background: #1F497D!important;
+    color: #fff!important;
+    padding: 10px 10px!important;
+    font-size: 15px!important;
+    border-radius: 5px!important;
+    box-shadow: 0 0 0 5px #ddd!important;
+    margin-left: 20px!important;
+}
+
+@media screen and (max-width: 1024px) {
+    fieldset.block {
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    fieldset.block {
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 812px) {
+    fieldset.block {
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 768) {
+    fieldset.block {
+        width: 80% !important;
+    }
+}
