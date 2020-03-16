@@ -18,7 +18,7 @@
   ],
 	"require": {
     "wpackagist-plugin/nginx-helper": "dev-master",
-    "wpackagist-plugin/wordpress-seo": "dev-master",
+    "wpackagist-plugin/wordpress-seo": "13.2",
     "wpackagist-plugin/wordfence":"dev-master",
     "wpackagist-plugin/classic-editor": "dev-master",
     "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "dev-master",
