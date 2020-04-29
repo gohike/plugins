@@ -23,7 +23,7 @@
     "wpackagist-plugin/classic-editor": "dev-master",
     "wpackagist-plugin/acf-content-analysis-for-yoast-seo": "dev-master",
     "wpackagist-plugin/redirection": "dev-master",
-    "wpackagist-plugin/shortcode-ui": "dev-master",
+    "wpackagist-plugin/shortcode-ui": "0.7.0",
     "wpackagist-plugin/relevanssi": "dev-master",
     "wpackagist-plugin/regenerate-thumbnails": "dev-master",
     "wpackagist-plugin/mainwp-child": "dev-master",
